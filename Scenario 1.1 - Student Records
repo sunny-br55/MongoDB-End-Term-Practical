@@ -1,1 +1,67 @@
+// Question 1- Scenario 1.1 - Student Records
+use college;
 
+// Step 1: Insert one student using insertOne()
+db.students.insertOne({
+    rollNo: 101,
+    name: "Arun",
+    dept: "CSE",
+    marks: 78,
+    city: "Chennai"
+});
+
+// Step 2: Insert four students using insertMany()
+db.students.insertMany([
+    {
+        rollNo: 102,
+        name: "Priya",
+        dept: "ECE",
+        marks: 85,
+        city: "Jaipur"
+    },
+    {
+        rollNo: 103,
+        name: "Karthik",
+        dept: "CSE",
+        marks: 62,
+        city: "Chennai"
+    },
+    {
+        rollNo: 104,
+        name: "Ravi",
+        dept: "ECE",
+        marks: 70,
+        city: "Delhi"
+    },
+    {
+        rollNo: 105,
+        name: "Suresh",
+        dept: "CSE",
+        marks: 91,
+        city: "Trichy"
+    }
+]);
+
+// Step 3: Display all students
+db.students.find();
+
+// Display only CSE students
+db.students.find({ dept: "CSE" });
+
+// Step 4: Update marks of roll number 103 to 68
+db.students.updateOne(
+    { rollNo: 103 },
+    { $set: { marks: 68 } }
+);
+
+// Step 5: Add semester field with value 3 to every CSE student
+db.students.updateMany(
+    { dept: "CSE" },
+    { $set: { semester: 3 } }
+);
+
+// Step 6: Delete student with roll number 104
+db.students.deleteOne({ rollNo: 104 });
+
+// Step 7: Display total number of remaining students
+db.students.countDocuments();
