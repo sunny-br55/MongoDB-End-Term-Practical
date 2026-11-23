@@ -1,0 +1,117 @@
+//Question 2 - Scenario 1.2 - Employee Directory
+use hr;
+
+// Step 1: Insert eight employees
+db.employees.insertMany([
+    {
+        empId: 1,
+        name: "Anita",
+        dept: "HR",
+        salary: 42000,
+        city: "Chennai"
+    },
+    {
+        empId: 2,
+        name: "Bala",
+        dept: "IT",
+        salary: 65000,
+        city: "Bengaluru"
+    },
+    {
+        empId: 3,
+        name: "Charan",
+        dept: "IT",
+        salary: 58000,
+        city: "Chennai"
+    },
+    {
+        empId: 4,
+        name: "Deepa",
+        dept: "Finance",
+        salary: 50000,
+        city: "Mumbai"
+    },
+    {
+        empId: 5,
+        name: "Elan",
+        dept: "IT",
+        salary: 72000,
+        city: "Chennai"
+    },
+    {
+        empId: 6,
+        name: "Farah",
+        dept: "HR",
+        salary: 45000,
+        city: "Delhi"
+    },
+    {
+        empId: 7,
+        name: "Gopal",
+        dept: "Finance",
+        salary: 61000,
+        city: "Chennai"
+    },
+    {
+        empId: 8,
+        name: "Hema",
+        dept: "Sales",
+        salary: 38000,
+        city: "Hyderabad"
+    }
+]);
+
+// Step 2: Employees earning more than 60000 using $gt
+db.employees.find({
+    salary: { $gt: 60000 }
+});
+
+// Step 3: Salary between 45000 and 60000 (inclusive)
+// Using $gte and $lte
+db.employees.find({
+    salary: {
+        $gte: 45000,
+        $lte: 60000
+    }
+});
+
+// Step 4: Employees of IT or Finance department using $in
+db.employees.find({
+    dept: { $in: ["IT", "Finance"] }
+});
+
+// Step 5(a): Chennai employees earning more than 50000 using $and
+db.employees.find({
+    $and: [
+        { city: "Chennai" },
+        { salary: { $gt: 50000 } }
+    ]
+});
+
+// Step 5(b): Employees in HR or earning more than 70000 using $or
+db.employees.find({
+    $or: [
+        { dept: "HR" },
+        { salary: { $gt: 70000 } }
+    ]
+});
+
+// Step 6: Employees not living in Chennai or Bengaluru using $nin
+db.employees.find({
+    city: { $nin: ["Chennai", "Bengaluru"] }
+});
+
+// Step 7: Names starting with A, B or C using $regex
+db.employees.find({
+    name: { $regex: "^[ABC]" }
+});
+
+// Step 8: Show only names and salaries,
+// highest salary first, skip first two and return next three
+db.employees.find(
+    {},
+    { _id: 0, name: 1, salary: 1 }
+)
+.sort({ salary: -1 })
+.skip(2)
+.limit(3);
